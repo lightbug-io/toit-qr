@@ -1,0 +1,6 @@
+dependencies:
+  lightbug:
+    url: github.com/lightbug-io/toit-lightbug
+    version: ^0.17.0
+  qr:
+    path: ..

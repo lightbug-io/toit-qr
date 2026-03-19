@@ -1,20 +1,13 @@
 /**
- * E-ink QR code display helper.
+ * E-ink QR code display on a Lightbug device.
  *
  * Encodes text as a QR code and draws it on the lightbug e-ink screen,
  * handling bitmap conversion and strip-based sending automatically.
- *
- * Usage:
- *   import lightbug.modules.eink.qrcode show draw-qr
- *
- *   draw-qr device
- *       --page-id=22
- *       --text="https://example.com"
  */
 
-import ...messages as messages
-import ...devices as devices
-import .qrcode show QrCode QrBitmap
+import lightbug.messages as messages
+import lightbug.devices as devices
+import qr show QrCode QrBitmap
 
 /** Default e-ink screen dimensions. */
 SCREEN-WIDTH_  ::= 250
@@ -22,6 +15,12 @@ SCREEN-HEIGHT_ ::= 122
 
 /** Maximum bitmap bytes per I2C message. */
 MAX-BYTES-PER-MSG_ ::= 255
+
+main:
+  device := devices.I2C --background=false
+  draw-qr device
+      --page-id=22
+      --text="https://example.com"
 
 /**
  * Encode text as a QR code and draw it on the e-ink screen.
