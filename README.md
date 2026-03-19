@@ -2,6 +2,8 @@
 
 Pure Toit QR code generation for constrained devices.
 
+https://pkg.toit.io/package/github.com%2Flightbug-io%2Ftoit-qr@v1.0.0
+
 This package provides:
 
 - `QrCode` — encodes data into a QR matrix (`0`/`1` modules).
@@ -18,7 +20,13 @@ If input exceeds capacity, encoding throws an error.
 
 ## Install
 
-Add the package to your Toit project dependencies and import it:
+Add the package to your Toit project dependencies:
+
+```sh
+jag pkg install github.com/lightbug-io/toit-qr
+```
+
+And import it:
 
 ```toit
 import qr show QrCode QrBitmap
