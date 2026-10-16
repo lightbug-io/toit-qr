@@ -1,22 +1,26 @@
-/**
- * Console QR code example.
- *
- * Encodes text as a QR code and prints it to the console using block
- * characters. This is useful for quick local verification without display
- * hardware.
- */
+// Copyright (C) 2026 onwave.com & lightbug.io.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
 
 import qr show QrCode
+
+/**
+Console QR code example.
+
+Encodes text as a QR code and prints it to the console using block
+  characters. This is useful for quick local verification without display
+  hardware.
+*/
 
 main:
   print-qr "https://example.com"
 
 /**
- * Print a QR code to the console.
- *
- * Uses a quiet zone around the QR and renders each module using 2
- * characters to improve terminal aspect ratio.
- */
+Prints the QR code for $text to the console.
+
+Surrounds the QR code with a quiet zone of $quiet modules and renders each
+  module as two characters to improve the terminal aspect ratio.
+*/
 print-qr text/string --quiet/int=2:
   qr := QrCode.encode text
   matrix := qr.matrix

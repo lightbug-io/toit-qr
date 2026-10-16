@@ -1,19 +1,24 @@
-/**
- * E-ink QR code display on a Lightbug device.
- *
- * Encodes text as a QR code and draws it on the lightbug e-ink screen,
- * handling bitmap conversion and strip-based sending automatically.
- */
+// Copyright (C) 2026 onwave.com & lightbug.io.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
 
 import lightbug.messages as messages
 import lightbug.devices as devices
 import qr show QrCode QrBitmap
 
-/** Default e-ink screen dimensions. */
+/**
+E-ink QR code display on a Lightbug device.
+
+Encodes text as a QR code and draws it on the Lightbug e-ink screen, handling
+  bitmap conversion and strip-based sending automatically.
+*/
+
+/** The width of the e-ink screen in pixels. */
 SCREEN-WIDTH_  ::= 250
+/** The height of the e-ink screen in pixels. */
 SCREEN-HEIGHT_ ::= 122
 
-/** Maximum bitmap bytes per I2C message. */
+/** The maximum number of bitmap bytes per I2C message. */
 MAX-BYTES-PER-MSG_ ::= 255
 
 main:
@@ -23,20 +28,20 @@ main:
       --text="https://example.com"
 
 /**
- * Encode text as a QR code and draw it on the e-ink screen.
- *
- * The QR code is automatically centered on the 250x122 screen unless
- * --x and --y are provided. The bitmap is sent in strips to stay within
- * the 255-byte I2C message limit.
- *
- * Parameters:
- *   --page-id: The e-ink page ID to draw on.
- *   --text: The text to encode in the QR code (max 42 bytes UTF-8).
- *   --scale: Pixels per QR module (default 3).
- *   --quiet: Quiet zone width in modules (default 2).
- *   --x, --y: Top-left position. Defaults to centered.
- *   --status-bar-enable: Whether to show status bar (default false).
- */
+Encodes $text as a QR code and draws it on the e-ink screen.
+
+Draws on the e-ink page identified by $page-id. The $text must fit in version
+  3 byte mode (at most $QrCode.MAX-DATA-BYTES bytes of UTF-8).
+
+Renders each QR module as a $scale by $scale block of pixels, surrounded by a
+  quiet zone of $quiet modules.
+
+Centers the QR code on the 250x122 screen unless $x and $y are given, in which
+  case they are used as the top-left position. Shows the status bar if
+  $status-bar-enable is set.
+
+The bitmap is sent in strips to stay within the 255-byte I2C message limit.
+*/
 draw-qr device/devices.Device
     --page-id/int
     --text/string
@@ -55,7 +60,7 @@ draw-qr device/devices.Device
   if draw-y == null:
     draw-y = (SCREEN-HEIGHT_ - bmp.height) / 2
 
-  // Send bitmap in strips (255-byte I2C message limit)
+  // Send the bitmap in strips (255-byte I2C message limit).
   bytes-per-row := (bmp.width + 7) / 8
   max-rows-per-strip := MAX-BYTES-PER-MSG_ / bytes-per-row
   total-rows := bmp.height
